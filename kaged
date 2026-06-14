@@ -1,0 +1,90 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+KAGED_DIR="${KAGED_DIR:-$HOME/.kaged}"
+COMPOSE_FILE="$KAGED_DIR/compose.yaml"
+
+usage() {
+  echo "Usage: kaged <command>"
+  echo ""
+  echo "Commands:"
+  echo "  start          Start the daemon"
+  echo "  stop           Stop the daemon"
+  echo "  status         Show container status"
+  echo "  auth launch    Open the daemon UI in browser"
+  echo "  logs           Tail daemon logs"
+  echo "  update         Pull latest image and restart"
+  echo "  exec <cmd>     Execute a command in the container"
+  exit 1
+}
+
+require_compose() {
+  if [ ! -f "$COMPOSE_FILE" ]; then
+    echo "Error: $COMPOSE_FILE not found. Run install.sh first." >&2
+    exit 1
+  fi
+}
+
+cmd_start() {
+  require_compose
+  docker compose -f "$COMPOSE_FILE" up -d
+}
+
+cmd_stop() {
+  require_compose
+  docker compose -f "$COMPOSE_FILE" down
+}
+
+cmd_status() {
+  require_compose
+  docker compose -f "$COMPOSE_FILE" ps
+}
+
+cmd_logs() {
+  require_compose
+  docker compose -f "$COMPOSE_FILE" logs -f
+}
+
+cmd_update() {
+  require_compose
+  docker compose -f "$COMPOSE_FILE" pull
+  docker compose -f "$COMPOSE_FILE" up -d
+}
+
+cmd_exec() {
+  docker exec -it kaged "$@"
+}
+
+cmd_auth_launch() {
+  local url
+  url=$(docker exec kaged kaged-daemon auth launch-url 2>/dev/null) || true
+  if [ -z "$url" ]; then
+    local port
+    port=$(docker compose -f "$COMPOSE_FILE" port kaged 13000 2>/dev/null | cut -d: -f2) || true
+    url="http://localhost:${port:-13000}"
+  fi
+
+  if command -v xdg-open &>/dev/null; then
+    xdg-open "$url"
+  elif command -v open &>/dev/null; then
+    open "$url"
+  else
+    echo "$url"
+  fi
+}
+
+[ $# -eq 0 ] && usage
+
+case "$1" in
+  start)  cmd_start ;;
+  stop)   cmd_stop ;;
+  status) cmd_status ;;
+  logs)   cmd_logs ;;
+  update) cmd_update ;;
+  exec)   shift; cmd_exec "$@" ;;
+  auth)
+    [ "${2:-}" = "launch" ] || usage
+    cmd_auth_launch
+    ;;
+  *) usage ;;
+esac
