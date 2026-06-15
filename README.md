@@ -1,6 +1,6 @@
 # kaged-releases
 
-Distribution artifacts and install scripts for [kaged](https://github.com/kaged-dev/kaged).
+Distribution artifacts and install scripts for [kaged](https://github.com/kaged-dev).
 
 ## Quick start (Docker)
 
@@ -18,7 +18,7 @@ docker pull ghcr.io/kaged-dev/kaged-daemon:latest
 
 - **install.sh** — Docker MVP installer. Pulls the image, writes a compose file, installs the `kaged` wrapper.
 - **kaged** — Thin CLI wrapper that fronts the containerised daemon.
-- **GitHub Releases** — Per-arch binaries + SHA256SUMS, published by the monorepo release CI.
+- **GitHub Releases** — Per-arch binaries + SHA256SUMS.
 
 ## Container image
 
@@ -44,4 +44,4 @@ kaged exec <cmd>         # docker exec into the container
 
 ## License
 
-To be decided. See the [monorepo](https://github.com/kaged-dev/kaged).
+[Pre-Release Evaluation License](LICENCE.md)
