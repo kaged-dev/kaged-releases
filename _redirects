@@ -1,0 +1,3 @@
+/docker /install-docker.sh 200
+/yolo /install.sh 200
+/image https://github.com/orgs/kaged-dev/packages/container/package/kaged-daemon 302

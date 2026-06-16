@@ -1,0 +1,19 @@
+[Unit]
+Description=kaged daemon (per-user)
+Documentation=https://kaged.dev
+After=default.target
+
+[Service]
+Type=simple
+EnvironmentFile=-%h/.config/kaged/env
+ExecStart=%h/.local/bin/kaged start
+Restart=on-failure
+RestartSec=5s
+KillMode=mixed
+TimeoutStopSec=30s
+
+# No system-level hardening directives are needed (the user's namespace
+# already constrains the process). bwrap inside kaged handles cage isolation.
+
+[Install]
+WantedBy=default.target

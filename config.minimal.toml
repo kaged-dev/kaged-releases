@@ -1,0 +1,31 @@
+# kaged daemon configuration — minimal local-first setup
+# Serves the bundled UI locally, no shared SSO, no shared UI.
+# Good for a single operator on a trusted machine.
+
+[daemon]
+bind = "127.0.0.1:7777"
+home = "/var/lib/kaged"
+public_url = ""
+
+[auth]
+mode = "secure"
+
+[storage]
+url = "sqlite:///var/lib/kaged/kaged.db"
+
+[sandbox]
+mode = "enabled"
+default_seccomp = "default"
+
+[logging]
+operational = "stderr"
+audit = "file:/var/lib/kaged/audit.log"
+level = "info"
+
+[plugins]
+dir = "/var/lib/kaged/plugins"
+enabled = []
+
+[ui]
+serve = true
+url = ""

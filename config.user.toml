@@ -1,0 +1,31 @@
+# kaged daemon configuration — per-user local setup
+# All paths use XDG defaults (home-relative) and the bundled UI is served locally.
+# Place this at ~/.config/kaged/config.toml and run kaged as your own user.
+
+[daemon]
+bind = "127.0.0.1:0"
+home = ""
+public_url = ""
+
+[auth]
+mode = "secure"
+
+[storage]
+url = ""
+
+[sandbox]
+mode = "enabled"
+default_seccomp = "default"
+
+[logging]
+operational = "stderr"
+audit = ""
+level = "info"
+
+[plugins]
+dir = ""
+enabled = []
+
+[ui]
+serve = true
+url = ""

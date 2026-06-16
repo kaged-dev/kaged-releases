@@ -1,0 +1,30 @@
+[Unit]
+Description=kaged daemon
+Documentation=https://kaged.dev
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=kaged
+Group=kaged
+EnvironmentFile=-/etc/kaged/env
+ExecStart=/usr/local/bin/kaged start
+Restart=on-failure
+RestartSec=5s
+KillMode=mixed
+TimeoutStopSec=30s
+
+# Hardening (systemd-side, complementing kaged's own sandbox)
+NoNewPrivileges=yes
+ProtectSystem=strict
+ReadWritePaths=/var/lib/kaged
+ProtectHome=yes
+PrivateTmp=yes
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectControlGroups=no                 # the daemon needs cgroup access for subagent limits
+RestrictNamespaces=user pid net mount   # the daemon needs these to set up cages
+
+[Install]
+WantedBy=multi-user.target

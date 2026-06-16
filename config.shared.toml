@@ -1,0 +1,28 @@
+# kaged daemon configuration — shared defaults
+# Pre-configured to use the shared SSO relay and shared UI at kaged.dev.
+# Copy this to your daemon config path and adjust bind/home as needed.
+
+[daemon]
+bind = "127.0.0.1:7777"
+home = "/var/lib/kaged"
+public_url = ""
+
+[auth]
+mode = "secure"
+
+[auth.sharedsso]
+enabled = true
+issuer = "https://sso.kaged.dev"
+public_key = """-----BEGIN PUBLIC KEY-----
+MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEOfnlB+9LXaT4Z5AvNz26gxpm955Z
+WvlAtVvF4e5j+GkXePkg9G4DDrbUGBx0H+/w7OnG9jndtwg4T4Y/gyAezw==
+-----END PUBLIC KEY-----"""
+user_creation = "enabled"
+pending_ttl_days = 7
+
+[logging]
+level = "warn"
+
+[ui]
+serve = false
+url = "https://ui.kaged.dev"

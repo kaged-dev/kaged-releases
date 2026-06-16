@@ -1,0 +1,383 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>get kaged</title>
+        <meta name="description" content="Install kaged from the latest release." />
+        <link rel="preconnect" href="https://cdn.kaged.dev" />
+        <link rel="stylesheet" href="https://cdn.kaged.dev/fonts/kaged-fonts.css" />
+        <style>
+            :root {
+                --bg-base: #0a0a0b;
+                --bg-elevated: #111114;
+                --bg-inset: #08080a;
+                --border-subtle: #1f1e1b;
+                --border-default: #2b2924;
+                --amber: #ffb000;
+                --amber-bright: #ffcc33;
+                --amber-dim: #806000;
+                --magenta: #ff2e63;
+                --magenta-dim: #802040;
+                --cyan: #00e0ff;
+                --text-primary: #e8e6e1;
+                --text-secondary: #9a938a;
+                --text-dim: #5c564e;
+                --font-display: "Orbitron", system-ui, sans-serif;
+                --font-ui: "Rajdhani", system-ui, sans-serif;
+                --font-mono: "JetBrains Mono", "Consolas", monospace;
+                --font-kanji: "Noto Serif JP", "Yu Mincho", serif;
+            }
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+            html {
+                scroll-behavior: smooth;
+            }
+            body {
+                background: var(--bg-base);
+                color: var(--text-primary);
+                font-family: var(--font-ui);
+                line-height: 1.5;
+                min-height: 100vh;
+                background-image:
+                    linear-gradient(rgba(255, 176, 0, 0.025) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(255, 176, 0, 0.025) 1px, transparent 1px);
+                background-size: 40px 40px;
+                font-variant-numeric: tabular-nums;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                padding: 48px 24px;
+            }
+            a {
+                text-decoration: none;
+                color: var(--amber);
+            }
+            a:hover {
+                color: var(--amber-bright);
+            }
+            .wrap {
+                width: 100%;
+                max-width: 720px;
+            }
+            .mascot {
+                width: 180px;
+                height: auto;
+                margin: 0 auto 32px;
+                display: block;
+                filter: drop-shadow(0 0 24px rgba(255, 176, 0, 0.15));
+                animation: drift 6s ease-in-out infinite;
+            }
+            @keyframes drift {
+                0%, 100% {
+                    transform: translateY(0);
+                }
+                50% {
+                    transform: translateY(-6px);
+                }
+            }
+            .brand {
+                text-align: center;
+                margin-bottom: 8px;
+            }
+            .brand .kanji {
+                font-family: var(--font-kanji);
+                font-size: 48px;
+                color: var(--amber);
+                line-height: 1;
+            }
+            .brand h1 {
+                font-family: var(--font-display);
+                font-size: 42px;
+                font-weight: 900;
+                letter-spacing: -0.03em;
+                margin-top: 12px;
+            }
+            .brand p {
+                font-family: var(--font-mono);
+                font-size: 13px;
+                color: var(--text-dim);
+                letter-spacing: 0.15em;
+                text-transform: uppercase;
+                margin-top: 8px;
+            }
+            .tagline {
+                text-align: center;
+                color: var(--text-secondary);
+                font-size: 20px;
+                margin: 40px 0 32px;
+            }
+            .tagline .bite {
+                color: var(--magenta);
+                font-weight: 600;
+            }
+            .code-frame {
+                background: var(--bg-inset);
+                border: 1px solid var(--border-subtle);
+                border-left: 2px solid var(--magenta);
+                overflow: hidden;
+                margin-bottom: 24px;
+                box-shadow: 0 0 32px rgba(255, 46, 99, 0.05);
+            }
+            .code-frame header {
+                padding: 10px 16px;
+                background: var(--bg-elevated);
+                border-bottom: 1px solid var(--border-subtle);
+                font-family: var(--font-mono);
+                font-size: 11px;
+                letter-spacing: 0.18em;
+                text-transform: uppercase;
+                color: var(--text-dim);
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+            .code-frame header .warning {
+                color: var(--magenta);
+            }
+            .code-frame pre {
+                padding: 20px 24px;
+                font-family: var(--font-mono);
+                font-size: 14px;
+                line-height: 1.7;
+                overflow-x: auto;
+                white-space: nowrap;
+                color: var(--text-secondary);
+            }
+            .code-frame pre .comment {
+                color: var(--text-dim);
+                font-style: italic;
+            }
+            .code-frame pre .cmd {
+                color: var(--text-primary);
+            }
+            .actions {
+                display: flex;
+                gap: 12px;
+                flex-wrap: wrap;
+                justify-content: center;
+                margin-bottom: 48px;
+            }
+            .button {
+                display: inline-flex;
+                align-items: center;
+                gap: 8px;
+                font-family: var(--font-mono);
+                font-size: 12px;
+                letter-spacing: 0.15em;
+                text-transform: uppercase;
+                padding: 14px 22px;
+                border: 1px solid var(--amber);
+                color: var(--amber);
+                background: transparent;
+                transition: all 180ms ease;
+            }
+            .button:hover {
+                background: rgba(255, 176, 0, 0.08);
+                color: var(--amber-bright);
+                box-shadow: 0 0 24px rgba(255, 176, 0, 0.2);
+            }
+            .button::before {
+                content: "[";
+                color: var(--amber-dim);
+                margin-right: 2px;
+            }
+            .button::after {
+                content: "]";
+                color: var(--amber-dim);
+                margin-left: 2px;
+            }
+            .button.alt {
+                border-color: var(--text-dim);
+                color: var(--text-secondary);
+            }
+            .button.alt:hover {
+                border-color: var(--text-primary);
+                color: var(--text-primary);
+                box-shadow: none;
+                background: var(--bg-elevated);
+            }
+            .grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+                gap: 16px;
+                margin-top: 48px;
+            }
+            .card {
+                background: var(--bg-elevated);
+                border: 1px solid var(--border-subtle);
+                padding: 24px;
+                transition: border-color 180ms ease;
+            }
+            .card:hover {
+                border-color: var(--border-default);
+            }
+            .card h3 {
+                font-family: var(--font-display);
+                font-size: 15px;
+                margin-bottom: 10px;
+                color: var(--text-primary);
+            }
+            .card p {
+                font-size: 14px;
+                color: var(--text-secondary);
+                line-height: 1.55;
+            }
+            .card a {
+                display: inline-block;
+                margin-top: 14px;
+                font-family: var(--font-mono);
+                font-size: 11px;
+                letter-spacing: 0.12em;
+                text-transform: uppercase;
+            }
+            .footer {
+                margin-top: 64px;
+                text-align: center;
+                font-family: var(--font-mono);
+                font-size: 11px;
+                color: var(--text-dim);
+                letter-spacing: 0.12em;
+            }
+            .footer a {
+                color: var(--text-dim);
+            }
+            .footer a:hover {
+                color: var(--amber);
+            }
+            @media (max-width: 600px) {
+                .brand h1 {
+                    font-size: 32px;
+                }
+                .code-frame pre {
+                    font-size: 12px;
+                    padding: 16px;
+                }
+                .mascot {
+                    width: 140px;
+                }
+            }
+            @media (prefers-reduced-motion: reduce) {
+                .mascot {
+                    animation: none;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="wrap">
+            <div class="brand">
+                <div class="kanji">影</div>
+                <h1>get kaged</h1>
+                <p>Pre-release builds // self-hosted</p>
+            </div>
+
+            <svg class="mascot" viewBox="0 0 241.50023 185.98448" fill="none" role="img" aria-label="Karasu">
+                <g transform="translate(-1.9283974,-43.158981)">
+                    <g fill="#ffb000">
+                        <path d="M 67.106458,224.84534 52.111753,209.85063 H 30.923187 l -8.270645,-8.27065 -0.25,-130.389909 8.73827,-8.738272 L 52.280208,62.2018 66.606461,47.1001 H 17.35258 L 5.9777539,59.621684 5.7277544,123.13658 l 9.3719166,9.37191 -9.1219171,9.12192 -0.2499995,70.49376 12.3562416,12.35624 z" />
+                        <path d="m 179.14307,46.86639 14.32626,15.101404 21.13928,0.250114 8.73848,8.738484 -0.13022,67.847018 14.2968,17.64802 -1.1405,16.29565 -12.90102,-1.89084 -0.31678,-0.0217 -0.0584,30.51184 -8.27082,8.27029 h -21.18837 l -14.99495,14.99495 49.02285,-0.36483 12.35584,-12.35635 -0.2496,-70.49389 -9.12193,-9.12193 9.37153,-9.37203 -0.2496,-63.514474 L 228.3969,46.8664 Z" />
+                    </g>
+                    <g fill="#1a1a1a">
+                        <path d="m 121.56078,121.36412 -21.3317,-5.3485 -9.461602,-4.24735 -12.804343,-2.5956 28.063345,-4.64063 15.18339,10.08856 z" />
+                        <path d="m 64.103548,164.86017 13.13533,-3.46081 -31.85514,36.48182 12.584747,-23.97573 z" />
+                        <path d="m 174.77066,158.09587 -41.84428,-3.77543 12.19147,-6.37102 12.82071,2.83156 z" />
+                        <path d="m 90.059586,193.09719 9.910487,-11.1923 5.584477,25.19283 z" />
+                    </g>
+                    <g fill="#333333">
+                        <path d="m 135.44333,95.801377 -22.25928,1.337128 8.10144,2.123672 24.14698,3.618123 -0.15731,-1.96637 12.50609,7.23623 10.30376,4.10461 h 3.4608 L 163.00874,102.0151 139.14009,85.733579 113.49867,82.648956 Z" />
+                        <path d="m 76.059056,119.0045 -17.539989,13.68591 -18.169225,32.40572 -1.887713,23.83236 9.359906,-23.13083 9.674521,-21.54501 11.247617,-13.76457 z" />
+                        <path d="m 101.14989,122.62262 c 0.31462,0 21.70869,0.47192 21.70869,0.47192 l 3.14619,3.85404 14.07918,0.0787 6.60699,0.24999 -22.46291,8.87395 z" />
+                        <path d="m 56.474047,161.63533 34.214776,-26.42797 12.348777,7.70816 z" />
+                        <path d="m 72.047668,200.41207 22.731198,-36.9598 22.573884,-10.23299 z" />
+                        <path d="m 117.03813,166.43326 0.7079,12.58475 13.05667,45.7124 -23.98967,-46.34164 z" />
+                        <path d="m 154.00583,177.05164 0.39327,-3.85408 7.94412,-9.74529 0.66552,18.00403 -4.59826,-7.00026 -0.41138,8.71516 z" />
+                        <path d="m 141.81435,188.06329 1.80906,18.01192 19.97828,22.60097 -11.71954,-23.23021 z" />
+                        <path d="m 124.51033,178.15281 5.26986,19.66366 1.88771,-14.70842 6.92161,-16.98941 z" />
+                        <path d="m 155.81488,141.34242 41.84428,9.12394 23.5964,12.74206 -35.86653,-8.10143 -16.59613,-3.14619 z" />
+                    </g>
+                    <g fill="#f2f2f2">
+                        <path d="m 84.239141,73.306143 27.293169,7.786811 1.96636,1.556002 25.64142,3.084621 23.86865,16.281523 8.53707,10.23967 -3.38215,-9.45313 5.97776,2.70565 4.21928,6.10367 5.29793,1.62593 -8.10143,-12.9522 -34.45074,-20.056936 z" />
+                        <path d="m 48.057998,121.38842 -12.584747,38.67381 21.708686,-37.68961 7.865467,-9.89646 z" />
+                        <path d="m 121.28549,99.26218 21.31541,6.7643 10.86248,7.00027 -8.03091,-10.14645 z" />
+                        <path d="m 154.00583,177.05164 -0.94386,8.88798 19.89963,42.63082 -0.78655,-23.67505 z" />
+                        <path d="m 117.11679,115.77966 5.74179,0.31462 4.71928,7.86547 7.94412,2.28098 3.3035,0.15731 1.25847,0.62924 -14.07918,-0.0787 z" />
+                        <path d="m 41.765624,118.21795 15.966898,-7.86546 23.124469,-17.539992 -17.38268,5.033899 z" />
+                        <path d="M 56.321224,86.59878 81.486228,88.486492 116.17293,89.037074 105,82.902011 75.115199,84.317797 Z" />
+                        <path d="m 144.09534,135.36467 54.58633,11.87685 30.59666,16.21075 v -4.41255 l -21.47272,-27.0572 -29.44491,-17.06806 -11.45551,7.55084 9.83183,-0.0786 22.41658,11.16896 -7.94412,-1.02251 -6.21372,4.56197 -16.8321,-4.48331 z" />
+                    </g>
+                    <g fill="#ff2e63">
+                        <path d="m 88.879766,115.49956 9.173435,0.52496 3.509629,-3.41071 22.6652,-0.10904 v -3.38374 h -1.36945 l -0.47193,1.77975 h -21.33012 l -3.559502,3.71982 z" />
+                        <path d="m 146.72955,114.59404 -1.88774,-0.80202 a 7.7801032,7.7868114 0 0 1 -7.67292,6.49935 7.7801032,7.7868114 0 0 1 -7.78041,-7.78661 7.7801032,7.7868114 0 0 1 1.52911,-4.62659 l -1.89446,-0.8046 a 9.7857971,9.8121691 0 0 0 -1.64021,5.43119 9.7857971,9.8121691 0 0 0 9.78597,9.81232 9.7857971,9.8121691 0 0 0 9.56066,-7.72304 z" />
+                        <path d="m 134.87549,109.5592 a 3.6297388,3.8098352 0 0 0 -1.33635,2.94556 3.6297388,3.8098352 0 0 0 3.62975,3.80959 3.6297388,3.8098352 0 0 0 3.62975,-3.80959 3.6297388,3.8098352 0 0 0 -0.0274,-0.44132 z m 2.2934,1.43506 a 1.4098053,1.5105814 0 0 1 1.40973,1.5105 1.4098053,1.5105814 0 0 1 -1.40973,1.5105 1.4098053,1.5105814 0 0 1 -1.40973,-1.5105 1.4098053,1.5105814 0 0 1 1.40973,-1.5105 z" />
+                    </g>
+                </g>
+            </svg>
+
+            <p class="tagline">
+                One command. One binary. <span class="bite">No corporate hand-holding.</span>
+            </p>
+
+            <div class="code-frame">
+                <header>
+                    <span class="warning">// YOLO binary installer</span>
+                    <span>curl · bash</span>
+                </header>
+                <pre>
+                    <span class="comment" style="display: block;"># installs latest release, asks before doing anything rude</span>
+                    <span class="cmd">curl -fsSL https://get.kaged.dev/install.sh | bash</span>
+                </pre>
+            </div>
+
+            <div class="actions">
+                <a href="https://github.com/kaged-dev/kaged-releases/releases" class="button" target="_blank">Releases</a>
+                <!-- <a href="/docker" class="button alt">Docker Install</a> -->
+                <a href="/image" class="button alt">GHCR Image</a>
+            </div>
+
+            <div class="grid">
+                <div class="card">
+                    <h3>config.shared.toml</h3>
+                    <p>Shared SSO + shared UI at kaged.dev. Plug in and go.</p>
+                    <a href="/config.shared.toml">download →</a>
+                </div>
+                   <div class="card">
+                    <h3>config.shared-user.toml</h3>
+                    <p>User, Shared SSO + shared UI at kaged.dev. Plug in and go.</p>
+                    <a href="/config.shared-user.toml">download →</a>
+                </div>
+                <div class="card">
+                    <h3>config.minimal.toml</h3>
+                    <p>Serve the bundled UI locally. No shared services.</p>
+                    <a href="/config.minimal.toml">download →</a>
+                </div>
+                <div class="card">
+                    <h3>config.user.toml</h3>
+                    <p>Per-user XDG paths. Run kaged as yourself.</p>
+                    <a href="/config.user.toml">download →</a>
+                </div>
+                <div class="card">
+                    <h3>systemd unit</h3>
+                    <p>System-wide service files.</p>
+                    <a href="/systemd/kaged.service">download →</a>
+                </div>
+                 <div class="card">
+                    <h3>systemd unit (user)</h3>
+                    <p>Per-user service files.</p>
+                    <a href="/systemd/kaged-user.service">download →</a>
+                </div>
+            </div>
+
+            <div class="footer">
+                <p>
+                    <a href="https://kaged.dev">kaged.dev</a> //
+                    <a href="https://kaged.dev/get.html">get.kaged.dev mirror</a> //
+                    <a href="https://github.com/kaged-dev/kaged-releases">source</a>
+                </p>
+            </div>
+        </div>
+    </body>
+</html>
